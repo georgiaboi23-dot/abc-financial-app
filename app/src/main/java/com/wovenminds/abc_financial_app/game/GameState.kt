@@ -1,10 +1,13 @@
 package com.wovenminds.abc_financial_app.game
 
-data class GameState(val score: Int=0, val questionIndex: Int=0, val currentQuestion: String = "",
-                     val options: List<String> = emptyList(), val correctAnswer: String = "",
-                     val selectedPack: QuestionPack? = null,val isGameOver: Boolean=false)
-enum class Difficulty{
-    EASY,
-    MEDIUM,
-    HARD
-}
+import com.wovenminds.abc_financial_app.game.model.GameMode
+import com.wovenminds.abc_financial_app.game.model.Question
+import com.wovenminds.abc_financial_app.game.model.QuestionPack
+
+
+data class GameState(val score: Int=0,
+                     val questionIndex: Int=0,
+                     val currentLearnIndex: Int=0,
+                     val mode: GameMode? = null,
+                     val selectedPack: QuestionPack? = null,
+                     val isGameOver: Boolean=false)

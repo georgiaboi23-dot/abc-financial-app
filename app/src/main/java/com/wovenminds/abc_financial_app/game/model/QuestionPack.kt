@@ -1,4 +1,4 @@
-package com.wovenminds.abc_financial_app.game
+package com.wovenminds.abc_financial_app.game.model
 
 data class QuestionPack (
     val id: String,
