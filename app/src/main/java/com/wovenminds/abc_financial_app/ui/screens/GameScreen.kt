@@ -8,8 +8,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
-import com.wovenminds.abc_financial_app.game.model.GameMode
-import com.wovenminds.abc_financial_app.game.GameViewModel
+import com.wovenminds.abc_financial_app.data.model.GameMode
+import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModel
 
 
 
@@ -49,39 +49,14 @@ fun GameHeader(
 }
 
 @Composable
-fun GameScreen(viewModel: GameViewModel, onClose: () -> Unit) {
+fun GameScreen(viewModel: GameViewModel,
+               mode:GameMode,
+               onClose: () -> Unit)
+{
     val state by viewModel.uiState.collectAsState()
 
-    if (state.isGameOver) {
-         GameOverScreen(
-            score = state.score,
-            onRestart = {
-                viewModel.resetGame()
-            }
-        )
-    }
-    else
-    {
-        when (state.mode) {
-            GameMode.LEARN -> {
-                LearnScreen(viewModel = viewModel)
-            }
 
-            GameMode.PRACTICE,
-            GameMode.CHALLENGE -> {
-                val question = viewModel.currentQuestion
-                if (question != null) {
-                    QuestionScreen(viewModel = viewModel)
-                } else {
-                    Text("No question available.")
-                }
-            }
 
-            null -> {
-                Text("Mode not selected")
-            }
-        }
-    }
 
     Scaffold(
         topBar =
@@ -106,7 +81,22 @@ fun GameScreen(viewModel: GameViewModel, onClose: () -> Unit) {
     { padding ->
         Box(modifier = Modifier.padding(padding))
         {
-            Text("Game Mode Coming Soon")
+            when (state.mode) {
+                GameMode.LEARN -> {
+                    LearnScreen(viewModel = viewModel)
+                }
+
+                GameMode.PRACTICE,
+                GameMode.CHALLENGE -> {
+                    QuestionScreen(viewModel = viewModel)
+
+                }
+
+                null -> {
+                    Text("Game Mode Coming Soon!")
+                }
+            }
+
         }
 
     }

@@ -1,7 +1,7 @@
-package com.wovenminds.abc_financial_app.game.repository
+package com.wovenminds.abc_financial_app.data.repository
 
-import com.wovenminds.abc_financial_app.game.model.Question
-import com.wovenminds.abc_financial_app.game.model.QuestionPack
+import com.wovenminds.abc_financial_app.data.model.Question
+import com.wovenminds.abc_financial_app.data.model.QuestionPack
 
 object QuestionRepository
 {
@@ -11,7 +11,7 @@ object QuestionRepository
         isPremium = false,
         questions = listOf(
             Question(
-                prompt = "What does ROI stand for?",
+                definition = "What does ROI stand for?",
                 options = listOf("Return on Investment", "Rate of Income", "Revenue on Interest"),
                 "Return on Investment"
             )
@@ -23,7 +23,7 @@ object QuestionRepository
         isPremium = true,
         questions = listOf(
             Question(
-                prompt = "What is diversification?",
+                definition = "What is diversification?",
                 options = listOf(
                     "Putting all money in one stock",
                     "Spreading investments",

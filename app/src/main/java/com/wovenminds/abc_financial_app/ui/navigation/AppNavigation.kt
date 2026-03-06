@@ -5,10 +5,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.wovenminds.abc_financial_app.game.GameViewModel
+import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModel
 import com.wovenminds.abc_financial_app.ui.screens.GameScreen
 import com.wovenminds.abc_financial_app.ui.screens.HomeScreen
 import com.wovenminds.abc_financial_app.ui.screens.PackSelectionScreen
+import com.wovenminds.abc_financial_app.data.model.GameMode
 
 @Composable
 fun AppNavigation() {
@@ -20,13 +21,17 @@ fun AppNavigation() {
         composable("home") {
             HomeScreen(onStart = { navController.navigate("packs") })
         }
-        composable("game"){
+        composable("game/{mode}"){
+           backStackEntry -> val modeString = backStackEntry.arguments?.getString("mode")
+
+            val mode = GameMode.valueOf(modeString!!)
 
             GameScreen(
                 viewModel = gameViewModel,
+                mode=mode,
                 onClose =
                     {
-                        navController.popBackStack("packs", false)
+                        navController.popBackStack()
                     }
             )
         }
@@ -36,8 +41,8 @@ fun AppNavigation() {
             PackSelectionScreen(
                 viewModel = gameViewModel, onStartGame =
                     {
-
-                        navController.navigate("game")
+                        mode -> gameViewModel.startGame(mode)
+                    navController.navigate("game/$mode")
                     }
             )
         }

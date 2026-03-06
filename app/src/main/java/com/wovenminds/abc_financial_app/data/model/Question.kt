@@ -1,7 +1,7 @@
-package com.wovenminds.abc_financial_app.game.model
+package com.wovenminds.abc_financial_app.data.model
 
 data class Question(
-    val prompt: String,
+    val definition: String,
     val options: List<String>,
     val correctAnswer: String
 )

@@ -13,18 +13,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wovenminds.abc_financial_app.game.GameViewModel
+import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModel
 
 @Composable
 fun QuestionScreen(viewModel: GameViewModel) {
     val state by viewModel.uiState.collectAsState()
-    val question = state.selectedPack?.questions?.getOrNull(state.questionIndex)?: return
+    val question = state.currentQuestion ?: return
 
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp))
     {
         Text(
-            text = question.prompt,
+            text = question.definition,
             style = MaterialTheme.typography.titleLarge
         )
     }
@@ -37,6 +37,7 @@ fun QuestionScreen(viewModel: GameViewModel) {
         }, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp))
         {
             Text(option)
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         }

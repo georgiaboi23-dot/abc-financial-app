@@ -8,17 +8,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wovenminds.abc_financial_app.game.model.GameMode
-import com.wovenminds.abc_financial_app.game.GameViewModel
-import com.wovenminds.abc_financial_app.game.repository.QuestionRepository
+import com.wovenminds.abc_financial_app.data.model.GameMode
+import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModel
+import com.wovenminds.abc_financial_app.data.repository.QuestionRepository
+
+
 
 @Composable
-fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: ()-> Unit)
+fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Unit)
 {
     val packs= QuestionRepository.getAllPacks()
     val state by viewModel.uiState.collectAsState()
 
-    Text(text=viewModel.getModeDescription())
+
 
 
      Column(
@@ -34,25 +36,51 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: ()-> Unit)
 
          Button({
              viewModel.setMode(GameMode.LEARN)
-             onStartGame()
+             viewModel.startGame(GameMode.LEARN)
+             onStartGame(GameMode.LEARN)
          }, modifier = Modifier.fillMaxWidth())
          {
              Text("LEARN")
+
          }
+         Spacer(modifier = Modifier.height(4.dp))
+         Text(text= getModeDescription(GameMode.LEARN))
+         Spacer(modifier = Modifier.height(8.dp))
+
 
          Button(onClick = {
              viewModel.setMode(GameMode.PRACTICE)
-             onStartGame()
+             viewModel.startGame(GameMode.PRACTICE)
+             onStartGame(GameMode.PRACTICE)
          }, modifier = Modifier.fillMaxWidth()) {
 
                  Text("PRACTICE")
+
          }
+         Spacer(modifier = Modifier.height(4.dp))
+         Text(text=getModeDescription(GameMode.PRACTICE))
+
+         Spacer(modifier = Modifier.height(8.dp))
 
          Button(onClick = {
-             onStartGame()
-
+             viewModel.setMode(GameMode.CHALLENGE)
+             viewModel.startGame(GameMode.CHALLENGE)
+             onStartGame(GameMode.CHALLENGE)
          }, modifier = Modifier.fillMaxWidth()) {
              Text("CHALLENGE")
+
          }
+         Spacer(modifier = Modifier.height(4.dp))
+         Text(text=getModeDescription(GameMode.CHALLENGE))
+         Spacer(modifier = Modifier.height(8.dp))
      }
+}
+
+fun getModeDescription(mode: GameMode): String {
+    return when (mode) {
+        GameMode.LEARN -> "Learn teaches financial concepts step-by-step with explanations."
+        GameMode.PRACTICE -> "Practice lets you answer questions without scoring or pressure."
+        GameMode.CHALLENGE -> "Challenge allows the ability to test knowledge with scoring and focus."
+        null -> ""
+    }
 }

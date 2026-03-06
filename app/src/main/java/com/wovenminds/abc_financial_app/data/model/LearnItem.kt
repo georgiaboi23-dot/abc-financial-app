@@ -1,4 +1,4 @@
-package com.wovenminds.abc_financial_app.game.model
+package com.wovenminds.abc_financial_app.data.model
 
 data class LearnItem(
     //Unique identifier (important for scaling)
