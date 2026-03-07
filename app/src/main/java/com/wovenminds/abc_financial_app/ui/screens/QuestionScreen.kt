@@ -1,5 +1,7 @@
 package com.wovenminds.abc_financial_app.ui.screens
 
+import android.R
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModel
@@ -21,24 +26,30 @@ fun QuestionScreen(viewModel: GameViewModel) {
     val question = state.currentQuestion ?: return
 
 
-    Column(modifier = Modifier.fillMaxSize().padding(24.dp))
+    Column(modifier = Modifier.fillMaxSize().padding(24.dp)
+        .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(20.dp))
     {
         Text(
             text = question.definition,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.headlineSmall
         )
-    }
-
         Spacer(modifier = Modifier.height(16.dp))
 
-        question.options.forEach {
-            option:String -> Button(onClick = {
-                viewModel.submitAnswer(option)
-        }, modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp))
-        {
-            Text(option)
-            Spacer(modifier = Modifier.height(16.dp))
+        question.options.forEach { option ->
+            Button(
+                onClick = {
+                    viewModel.submitAnswer(option)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(option)
+            }
         }
-
-        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Score: ${state.score}",
+            style = MaterialTheme.typography.bodyLarge
+        )
+    }
 }

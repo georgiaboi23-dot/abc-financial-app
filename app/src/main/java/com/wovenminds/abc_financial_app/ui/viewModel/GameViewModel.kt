@@ -90,7 +90,7 @@ class GameViewModel : ViewModel()
 
     fun submitAnswer(answer: String)
     {
-        val question = currentQuestion?: return
+        val question = _uiState.value.currentQuestion?: return
 
         val isCorrect = answer == question.correctAnswer
 

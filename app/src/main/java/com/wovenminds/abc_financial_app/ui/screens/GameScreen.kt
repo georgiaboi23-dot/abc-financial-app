@@ -79,7 +79,7 @@ fun GameScreen(viewModel: GameViewModel,
                 )
             })
     { padding ->
-        Box(modifier = Modifier.padding(padding))
+        Box(modifier = Modifier.padding(paddingValues = padding))
         {
             when (state.mode) {
                 GameMode.LEARN -> {
@@ -101,22 +101,5 @@ fun GameScreen(viewModel: GameViewModel,
 
     }
 }
-/*    modifier = TODO(),
-    bottomBar = TODO(),
-snackbarHost = TODO(),
-floatingActionButton = TODO(),
-floatingActionButtonPosition = TODO(),
-containerColor = TODO(),
-contentColor = TODO(),
-contentWindowInsets = TODO(),
-content = TODO(),
-modifier = TODO(),
-bottomBar = TODO(),
-snackbarHost = TODO(),
-floatingActionButton = TODO(),
-floatingActionButtonPosition = TODO(),
-containerColor = TODO(),
-contentColor = TODO(),
-contentWindowInsets = TODO(),
-content = TODO()*/
+
 
