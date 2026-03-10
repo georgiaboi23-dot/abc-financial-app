@@ -1,6 +1,6 @@
 package com.wovenminds.abc_financial_app.data.model
 
-data class LearnItem(
+data class ContentItem(
     //Unique identifier (important for scaling)
     val id: String,
 

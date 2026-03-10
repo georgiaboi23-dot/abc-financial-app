@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wovenminds.abc_financial_app.data.model.GameMode
 import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModel
+import com.wovenminds.abc_financial_app.data.model.QuestionPack
 import com.wovenminds.abc_financial_app.data.repository.QuestionRepository
 
 
@@ -17,11 +18,15 @@ import com.wovenminds.abc_financial_app.data.repository.QuestionRepository
 @Composable
 fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Unit)
 {
-    val packs= QuestionRepository.getAllPacks()
+
     val state by viewModel.uiState.collectAsState()
+    var showPurchaseDialog by remember {
+        mutableStateOf(false)
+    }
 
-
-
+    var selectedPack by remember {
+        mutableStateOf<QuestionPack?> (null)
+    }
 
      Column(
          modifier = Modifier.fillMaxSize(),
@@ -31,7 +36,6 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
      {
          Text("Choose Mode")
          Spacer(modifier = Modifier.height(16.dp))
-
 
 
          Button({
@@ -63,9 +67,16 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
          Spacer(modifier = Modifier.height(8.dp))
 
          Button(onClick = {
-             viewModel.setMode(GameMode.CHALLENGE)
-             viewModel.startGame(GameMode.CHALLENGE)
-             onStartGame(GameMode.CHALLENGE)
+             if(!state.isPremium)
+             {
+                 showPurchaseDialog = true
+             }
+             else {
+                 viewModel.setMode(GameMode.CHALLENGE)
+                 viewModel.onChallengeSelected()
+                 viewModel.startGame(GameMode.CHALLENGE)
+                 onStartGame(GameMode.CHALLENGE)
+             }
          }, modifier = Modifier.fillMaxWidth()) {
              Text("CHALLENGE")
 
@@ -74,7 +85,20 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
          Text(text=getModeDescription(GameMode.CHALLENGE))
          Spacer(modifier = Modifier.height(8.dp))
      }
+
+    if(showPurchaseDialog && selectedPack != null)
+    {
+        PremiumPurchaseDialog (onDismiss = {
+            showPurchaseDialog = false},
+            {
+                selectedPack?.let{
+                pack -> viewModel.unlockChallenge()
+                viewModel.onChallengeSelected()
+            }
+        })
+    }
 }
+
 
 fun getModeDescription(mode: GameMode): String {
     return when (mode) {

@@ -1,162 +1,162 @@
 package com.wovenminds.abc_financial_app.data.repository
-import com.wovenminds.abc_financial_app.data.model.LearnItem
+import com.wovenminds.abc_financial_app.data.model.ContentItem
 
 class LearnRepository
 {
-    fun getLearnItems():List<LearnItem>
+    fun getLearnItems():List<ContentItem>
     {
         return listOf(
-            LearnItem(
+            ContentItem(
                 id="A",
                 letter = "A",
                 word = "Asset",
                 definition = "Something of value that you own."
             ),
-            LearnItem(
+            ContentItem(
                 id="B",
                 letter = "B",
                 word="Budget",
                 definition = "A plan for managing income and expenses."
             ),
-            LearnItem(
+            ContentItem(
                 id="C",
                 letter = "C",
                 word = "Credit",
                 definition = "Ability to borrow money with agreement to repay."
             ),
-            LearnItem(
+            ContentItem(
                 id = "D",
                 letter = "D",
                 word = "Debt",
                 definition = "Money owed to another person or institution."
             ),
-            LearnItem(
+            ContentItem(
                 id = "E",
                 letter="E",
                 word = "Equity",
                 definition = "Ownership value in an asset after debts are subtracted."
             ),
-            LearnItem(
+            ContentItem(
                 id = "F",
                 letter = "F",
                 word = "Finance",
                 definition = "Management of money and investments."
             ),
-            LearnItem(
+            ContentItem(
                 id="G",
                 letter = "G",
                 word = "Gross Income",
                 definition = "Total income earned before deductions."
             ),
-            LearnItem(
+            ContentItem(
                 id = "H",
                 letter = "H",
                 word = "Holding",
                 definition = "An investment owned in a portfolio."
             ),
-            LearnItem(
+            ContentItem(
                 id="I",
                 letter = "I",
                 word = "Income",
                 definition = "Money received from work, investments, or business."
             ),
-            LearnItem(
+            ContentItem(
                 id = "J",
                 letter = "J",
                 word = "Joint Account",
                 definition = "A financial account shared by two or more people."
             ),
-            LearnItem(
+            ContentItem(
                 id = "K",
                 letter = "K",
                 word = "Knowledge",
                 definition = "Understanding gained through learning and experience."
             ),
-            LearnItem(
+            ContentItem(
                 id = "L",
                 letter = "L",
                 word = "Liability",
                 definition = "A financial obligation or debt."
             ),
-            LearnItem(
+            ContentItem(
                 id = "M",
                 letter = "M",
                 word = "Market",
                 definition = "A system where buyers and sellers trade assets."
             ),
-            LearnItem(
+            ContentItem(
                 id = "N",
                 letter = "N",
                 word = "Net Income",
                 definition = "Income remaining after expenses and taxes."
             ),
-            LearnItem(
+            ContentItem(
                 id = "O",
                 letter = "O",
                 word = "Opportunity Cost",
                 definition = "The value of the next best alternative given up."
             ),
-            LearnItem(
+            ContentItem(
                 id = "P",
                 letter = "P",
                 word = "Profit",
                 definition = "Financial gain after subtracting costs."
             ),
-            LearnItem(
+            ContentItem(
                 id = "Q",
                 letter = "Q",
                 word = "Quarter",
                 definition = "A three-month financial reporting period."
             ),
-            LearnItem(
+            ContentItem(
                 id = "R",
                 letter = "R",
                 word = "Risk",
                 definition = "The possibility of losing money on an investment."
             ),
-            LearnItem(
+            ContentItem(
                 id = "S",
                 letter="S",
                 word = "Savings",
                 definition = "Money set aside for future use."
             ),
-            LearnItem(
+            ContentItem(
                 id = "T",
                 letter = "T",
                 word = "Transaction",
                 definition = "An exchange of money for goods, services, or assets."
             ),
-            LearnItem(
+            ContentItem(
                 id="U",
                 letter = "U",
                 word = "Utility",
                 definition = "The usefulness or value of a good or service."
             ),
-            LearnItem(
+            ContentItem(
                 id = "V",
                 letter = "V",
                 word = "Volatility",
                 definition = "The rate at which the price of an asset changes."
             ),
-            LearnItem(
+            ContentItem(
                 id = "W",
                 letter = "W",
                 word = "Wealth",
                 definition = "Accumulated valuable assets and resources."
             ),
-            LearnItem(
+            ContentItem(
                 id = "X",
                 letter = "X",
                 word = "Xenocurrency",
                 definition = "A currency used outside its country of origin or traded in international markets."
             ),
-            LearnItem(
+            ContentItem(
                 id = "Y",
                 letter = "Y",
                 word = "Yield",
                 definition = "The income generated from an investment."
             ),
-            LearnItem(
+            ContentItem(
                 id = "Z",
                 letter = "Z",
                 word = "Zero-Based Budgeting",

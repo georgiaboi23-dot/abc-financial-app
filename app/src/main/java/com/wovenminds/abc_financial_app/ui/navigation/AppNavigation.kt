@@ -10,11 +10,12 @@ import com.wovenminds.abc_financial_app.ui.screens.GameScreen
 import com.wovenminds.abc_financial_app.ui.screens.HomeScreen
 import com.wovenminds.abc_financial_app.ui.screens.PackSelectionScreen
 import com.wovenminds.abc_financial_app.data.model.GameMode
+import com.wovenminds.abc_financial_app.ui.viewModel.GameViewModelFactory
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(gameViewModel: GameViewModel) {
     val navController = rememberNavController()
-    val gameViewModel: GameViewModel = viewModel()
+
 
     NavHost(navController = navController, startDestination = "home")
     {

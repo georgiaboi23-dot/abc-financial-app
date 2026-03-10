@@ -1,28 +1,37 @@
 package com.wovenminds.abc_financial_app.ui.viewModel
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
-import com.wovenminds.abc_financial_app.ui.viewModel.GameState
+import androidx.lifecycle.viewModelScope
+import com.wovenminds.abc_financial_app.data.datastore.PremiumManager
 import com.wovenminds.abc_financial_app.data.model.GameMode
-import com.wovenminds.abc_financial_app.data.model.LearnItem
+import com.wovenminds.abc_financial_app.data.model.ContentItem
 import com.wovenminds.abc_financial_app.data.model.Question
 import com.wovenminds.abc_financial_app.data.model.QuestionPack
 import com.wovenminds.abc_financial_app.data.repository.LearnRepository
+import com.wovenminds.abc_financial_app.data.repository.QuestionRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class GameViewModel : ViewModel()
+class GameViewModel(private val learnRepository: LearnRepository,
+    private val questionRepository: QuestionRepository,
+    private val premiumManager: PremiumManager) : ViewModel()
 {
-
-    private val learnRepository = LearnRepository()
     val currentQuestion: Question? get() = _uiState.value.selectedPack?.questions?.getOrNull(_uiState.value.questionIndex)
+
+    val isPremium = premiumManager.isPremiumUnlocked
+
     private val _uiState = MutableStateFlow(GameState())
     val uiState: StateFlow<GameState> = _uiState
-    val learnCount:Int get() = learnItems.size
+    val learnCount:Int get() = _uiState.value.learnItems.size
 
     private val learnItems = learnRepository.getLearnItems()
 
-    val currentLearnItem: LearnItem?get() = learnItems.getOrNull(_uiState.value.currentLearnIndex)
+
+    val currentLearnItem: ContentItem?get() = _uiState.value.learnItems.getOrNull(_uiState.value.currentLearnIndex)
 
 
     fun selectPack(pack: QuestionPack)
@@ -37,25 +46,47 @@ class GameViewModel : ViewModel()
         }
     }
 
-    fun generatePracticeQuestion(): Question
+    fun generatePracticeQuestion(isPremium: Boolean): Question
     {
         val items= learnRepository.getLearnItems()
+        val premiumItems = if(_uiState.value.isPremium)
+            questionRepository.getContent()
+        else
+            emptyList()
 
-        if(items.size < 3 ) {
+        val allItems = premiumItems + items
+
+        if(allItems.size < 3 ) {
             throw IllegalStateException("Need at least 3 learn items for practice mode.")
         }
-            val correctItem = items.random()
-            val wrongOptions = items.filter{
+            val correctItem = allItems.random()
+            val wrongOptions = allItems.filter{
                 it.word != correctItem.word
             }.shuffled().take(2).map { it.word }
 
             val allOptions = (wrongOptions + correctItem.word).shuffled()
 
             return Question(
+                id = correctItem.id,
                 definition = correctItem.definition,
                 options = allOptions,
                 correctAnswer = correctItem.word
             )
+    }
+
+    fun loadLearnItems()
+    {
+        val freeItems = learnRepository.getLearnItems()
+        val premiumItems = if(_uiState.value.isPremium)
+            questionRepository.getContent()
+        else
+            emptyList()
+
+        val allLearnItems = premiumItems + freeItems
+
+        //learnCount = allLearnItems.size
+
+        _uiState.value = _uiState.value.copy(learnItems = allLearnItems)
     }
 
 
@@ -63,7 +94,7 @@ class GameViewModel : ViewModel()
     {
         val currentIndex = _uiState.value.currentLearnIndex
 
-        if (currentIndex < learnItems.lastIndex)
+        if (currentIndex < _uiState.value.learnItems.size -1)
         {
             _uiState.update { it.copy(currentLearnIndex = currentIndex+1) }
         }
@@ -82,8 +113,7 @@ class GameViewModel : ViewModel()
     fun loadQuestion()
     {
 
-
-        val questionPool = generatePracticeQuestion()
+        val questionPool = generatePracticeQuestion(_uiState.value.isPremium)
 
         _uiState.update{ it.copy(currentQuestion=questionPool)}
     }
@@ -113,6 +143,47 @@ class GameViewModel : ViewModel()
     fun resetGame()
     {
         _uiState.value = GameState()
+
+    }
+
+    fun onChallengeSelected()
+    {
+        if (_uiState.value.isPremium)
+        {
+            startChallenge()
+        }
+        else
+        {
+            _uiState.value = _uiState.value.copy(showPurchaseDialog = true)
+        }
+    }
+
+    fun dismissPurchaseDialog()
+    {
+        _uiState.value = _uiState.value.copy(showPurchaseDialog = false)
+    }
+
+    fun purchasePremium()
+    {
+        viewModelScope.launch{
+            premiumManager.setPreimumUnlocked()
+
+            _uiState.value = _uiState.value.copy(isPremium = true,
+                showPurchaseDialog = false)
+
+            loadLearnItems()
+            loadQuestion()
+        }
+    }
+
+    private fun startChallenge()
+    {
+        loadQuestion()
+    }
+
+    fun unlockChallenge()
+    {
+        _uiState.value = _uiState.value.copy(isPremium = true)
 
     }
 
