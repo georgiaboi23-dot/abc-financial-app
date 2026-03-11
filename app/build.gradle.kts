@@ -4,17 +4,17 @@ plugins {
 }
 
 android {
-    namespace = "com.wovenminds.abc_financial_app"
+    namespace = "com.wovenminds.FinPhabet"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.wovenminds.abc_financial_app"
+        applicationId = "com.wovenminds.FinPhabet"
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "0.0.1"
+        versionName = "0.0.1-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -53,6 +53,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.7")
     implementation(platform("androidx.compose:compose-bom:2026.02.01"))
     implementation("androidx.compose.material3:material3")
+    implementation("com.android.billingclient:billing-ktx:8.3.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
