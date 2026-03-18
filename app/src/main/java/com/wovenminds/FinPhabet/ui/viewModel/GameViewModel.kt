@@ -1,5 +1,8 @@
 package com.wovenminds.FinPhabet.ui.viewModel
 
+import android.app.Activity
+import android.content.Context
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wovenminds.FinPhabet.data.datastore.PremiumManager
@@ -12,6 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.wovenminds.FinPhabet.data.billing.BillingManager
+import androidx.compose.runtime.State
+import kotlinx.serialization.descriptors.PrimitiveKind
 
 class GameViewModel(private val learnRepository: LearnRepository,
     private val questionRepository: QuestionRepository,
@@ -21,11 +27,18 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
     val isPremium: Boolean get() = _uiState.value.isPremium
 
+    private var billingManager: BillingManager? = null
+
     private val _uiState = MutableStateFlow(GameState())
     val uiState: StateFlow<GameState> = _uiState
     val learnCount:Int get() = _uiState.value.learnItems.size
 
     private val learnItems = learnRepository.getLearnItems()
+
+    private val _isPremiumUnlocked = MutableStateFlow(false)
+
+    val isPremiumUnlocked:StateFlow<Boolean> = _isPremiumUnlocked
+
 
 
     val currentLearnItem: ContentItem?get() = _uiState.value.learnItems.getOrNull(_uiState.value.currentLearnIndex)
@@ -37,6 +50,48 @@ class GameViewModel(private val learnRepository: LearnRepository,
                     it.copy(isPremium= unlocked)
             }
             }
+        }
+    }
+
+    fun restorePurchase()
+    {
+        billingManager?.restorePurchases()
+    }
+
+    fun initBilling(context: Context)
+    {
+        if (billingManager != null)
+            return
+
+        billingManager = BillingManager(context.applicationContext)
+        {
+            unlockPremium()
+        }
+
+        billingManager?.startConnection {
+            billingManager?.restorePurchases()
+        }
+    }
+
+    fun purchaseChallenge(activity: Activity)
+    {
+        billingManager?.launchPurchase(activity)
+    }
+
+    private fun unlockPremium()
+    {
+        viewModelScope.launch {
+            premiumManager.setPremiumUnlocked()
+
+            _isPremiumUnlocked.value = true
+        }
+    }
+
+    fun loadPremiumState()
+    {
+        viewModelScope.launch {
+
+            _isPremiumUnlocked.value = premiumManager.isPremiumUnlocked()
         }
     }
 

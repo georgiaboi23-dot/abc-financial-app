@@ -18,7 +18,7 @@ fun AppNavigation(gameViewModel: GameViewModel) {
     NavHost(navController = navController, startDestination = "home")
     {
         composable("home") {
-            HomeScreen(onStart = { navController.navigate("packs") })
+            HomeScreen(gameViewModel,  navController)
         }
         composable("game/{mode}"){
            backStackEntry -> val modeString = backStackEntry.arguments?.getString("mode")

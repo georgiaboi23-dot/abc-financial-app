@@ -18,6 +18,7 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
 {
 
     val state by viewModel.uiState.collectAsState()
+    //val isPremium by viewModel.
     var showPurchaseDialog by remember {
         mutableStateOf(false)
     }

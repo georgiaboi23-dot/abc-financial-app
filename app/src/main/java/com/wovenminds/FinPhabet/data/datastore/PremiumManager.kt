@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class PremiumManager (private val context: Context)
@@ -25,4 +26,9 @@ class PremiumManager (private val context: Context)
         val isPremiumUnlocked: Flow<Boolean> = context.dataStore.data.map{ prefs ->
             prefs[PREMIUM_KEY] ?: false
         }
+    suspend fun isPremiumUnlocked(): Boolean
+    {
+        val prefs = context.dataStore.data.first()
+        return prefs[PREMIUM_KEY]?:false
+    }
 }
