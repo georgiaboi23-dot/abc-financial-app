@@ -14,14 +14,31 @@ import androidx.compose.runtime.getValue
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import com.wovenminds.FinPhabet.data.model.GameMode
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
+import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 
 @Composable
 fun QuestionScreen(viewModel: GameViewModel) {
     val state by viewModel.uiState.collectAsState()
     val question = state.currentQuestion ?: return
+
+    val context = LocalContext.current
+
+    val gameMode by viewModel.currentGameMode.collectAsState()
+
+
+
+    LaunchedEffect(Unit) {
+        viewModel.initAudioManager(context)
+    }
 
 
     Column(modifier = Modifier.fillMaxSize().padding(24.dp)

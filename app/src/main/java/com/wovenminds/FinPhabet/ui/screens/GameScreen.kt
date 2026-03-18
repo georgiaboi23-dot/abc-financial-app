@@ -10,7 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import com.wovenminds.FinPhabet.data.model.GameMode
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
-
+import kotlinx.coroutines.delay
 
 
 @Composable
@@ -18,6 +18,8 @@ fun GameHeader(
     score: Int,
     questionIndex: Int,
     totalQuestions: Int,
+    gameMode: GameMode,
+    timeLeft: Int,
     onClose: () -> Unit
 ) {
     Row(
@@ -29,12 +31,23 @@ fun GameHeader(
     )
     {
         //Left side: Score
+        if (gameMode != GameMode.LEARN)
         Text(
             text = "Score: $score",
             style = MaterialTheme.typography.titleMedium
         )
 
+        Text(
+            text = when(gameMode)
+            {
+                GameMode.CHALLENGE -> "Time: $timeLeft"
+                GameMode.PRACTICE -> "Practice"
+                GameMode.LEARN -> "Learn"
+            }
+        )
+
         //Center: Question Progress
+        if (gameMode != GameMode.LEARN)
         Text(
             text = "Q $questionIndex/$totalQuestions",
             style = MaterialTheme.typography.titleMedium
@@ -55,7 +68,23 @@ fun GameScreen(viewModel: GameViewModel,
 {
     val state by viewModel.uiState.collectAsState()
 
+    var timeLeft by remember { mutableStateOf(15) }
 
+    if(mode == GameMode.CHALLENGE)
+    {
+        LaunchedEffect(state.currentQuestion) {
+            timeLeft = 15
+            while(timeLeft > 0)
+            {
+                delay(1000L)
+                timeLeft -= 1
+            }
+            if (timeLeft == 0)
+            {
+                viewModel.submitAnswer("")
+            }
+        }
+    }
 
 
     Scaffold(
@@ -65,6 +94,8 @@ fun GameScreen(viewModel: GameViewModel,
                     score = state.score,
                     questionIndex = state.questionIndex,
                     totalQuestions = state.questionIndex + 10,
+                    gameMode = mode,
+                    timeLeft = timeLeft,
                     onClose = onClose
 
                     /*title = { Text("ABC Financial") },

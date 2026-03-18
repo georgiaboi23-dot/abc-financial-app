@@ -1,6 +1,7 @@
 package com.wovenminds.FinPhabet.ui.viewModel
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -17,6 +18,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import com.wovenminds.FinPhabet.data.billing.BillingManager
 import androidx.compose.runtime.State
+import androidx.lifecycle.AndroidViewModel
+import com.wovenminds.FinPhabet.audio.AudioManager
+import com.wovenminds.FinPhabet.R
 import kotlinx.serialization.descriptors.PrimitiveKind
 
 class GameViewModel(private val learnRepository: LearnRepository,
@@ -27,6 +31,10 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
     val isPremium: Boolean get() = _uiState.value.isPremium
 
+    private var audioManager: AudioManager? = null
+
+
+
     private var billingManager: BillingManager? = null
 
     private val _uiState = MutableStateFlow(GameState())
@@ -34,6 +42,10 @@ class GameViewModel(private val learnRepository: LearnRepository,
     val learnCount:Int get() = _uiState.value.learnItems.size
 
     private val learnItems = learnRepository.getLearnItems()
+
+    val _currentGameMode = MutableStateFlow<GameMode>(GameMode.PRACTICE)
+
+    val currentGameMode:StateFlow<GameMode> = _currentGameMode
 
     private val _isPremiumUnlocked = MutableStateFlow(false)
 
@@ -44,12 +56,24 @@ class GameViewModel(private val learnRepository: LearnRepository,
     val currentLearnItem: ContentItem?get() = _uiState.value.learnItems.getOrNull(_uiState.value.currentLearnIndex)
 
     init{
+
         viewModelScope.launch {
             premiumManager.isPremiumUnlocked.collect{
                 unlocked -> _uiState.update {
                     it.copy(isPremium= unlocked)
             }
             }
+        }
+    }
+
+    fun initAudioManager(context: Context)
+    {
+        if(audioManager == null)
+        {
+            audioManager = AudioManager(context.applicationContext)
+
+            audioManager?.loadSound(R.raw.correctanswer)
+            audioManager?.loadSound(R.raw.wronganswer)
         }
     }
 
@@ -123,6 +147,7 @@ class GameViewModel(private val learnRepository: LearnRepository,
             )
     }
 
+
     fun loadLearnItems()
     {
         val freeItems = learnRepository.getLearnItems()
@@ -173,6 +198,11 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
         val isCorrect = answer == question.correctAnswer
 
+        if (isCorrect)
+            audioManager?.playSound(R.raw.correctanswer)
+        else
+            audioManager?.playSound(R.raw.wronganswer)
+
         _uiState.update {
             it.copy(score = if (isCorrect) it.score +1
             else
@@ -180,6 +210,11 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
         }
         loadQuestion()
+    }
+
+    override fun onCleared() {
+        audioManager?.release()
+        super.onCleared()
     }
 
     fun setMode(mode: GameMode)
@@ -240,7 +275,7 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
         println("Start Game Mode: $mode")
 
-
+        _currentGameMode.value = mode
         _uiState.update { it.copy (mode = mode,
             score = 0,
             isGameOver = false) }
