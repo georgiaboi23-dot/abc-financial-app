@@ -5,7 +5,7 @@ import androidx.compose.material3.*
 
 @Composable
 fun PremiumPurchaseDialog(onDismiss:() -> Unit,
-                          onPurchaseComplete: () -> Unit)
+                          onPurchaseRequested: () -> Unit)
 {
     AlertDialog(onDismissRequest = onDismiss,
         title = {
@@ -15,7 +15,7 @@ fun PremiumPurchaseDialog(onDismiss:() -> Unit,
             Text("Purchase to access challenge mode and extra content.")
         },
         confirmButton = {
-            Button(onClick = onPurchaseComplete)
+            Button(onClick = {onPurchaseRequested()})
             {
                 Text("Buy Challenge")
             }

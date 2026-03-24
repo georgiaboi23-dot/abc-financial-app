@@ -32,10 +32,11 @@ fun GameHeader(
     {
         //Left side: Score
         if (gameMode != GameMode.LEARN)
-        Text(
-            text = "Score: $score",
-            style = MaterialTheme.typography.titleMedium
-        )
+
+            Text(
+                text = "Score: $score",
+                style = MaterialTheme.typography.titleMedium
+            )
 
         Text(
             text = when(gameMode)

@@ -1,5 +1,6 @@
 package com.wovenminds.FinPhabet.ui.screens
 
+import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.*
@@ -7,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.wovenminds.FinPhabet.data.model.GameMode
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
@@ -19,6 +21,8 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
 
     val state by viewModel.uiState.collectAsState()
     //val isPremium by viewModel.
+    val context = LocalContext.current
+    val activity = context as Activity
     var showPurchaseDialog by remember {
         mutableStateOf(false)
     }
@@ -91,8 +95,8 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
             showPurchaseDialog = false},
             {
                 showPurchaseDialog = false
-                viewModel.unlockChallenge()
-                viewModel.purchasePremium()
+                viewModel.unlockChallenge(activity)
+                //viewModel.purchasePremium()
             }
         )
     }

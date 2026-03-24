@@ -246,8 +246,10 @@ class GameViewModel(private val learnRepository: LearnRepository,
         }
     }
 
-    fun purchasePremium()
+    fun purchasePremium(activity: Activity)
     {
+
+        billingManager?.launchPurchase(activity)
         viewModelScope.launch{
             premiumManager.setPremiumUnlocked()
 
@@ -264,10 +266,14 @@ class GameViewModel(private val learnRepository: LearnRepository,
         loadQuestion()
     }
 
-    fun unlockChallenge()
+    fun unlockChallenge(activity: Activity)
     {
-        _uiState.value = _uiState.value.copy(isPremium = true)
-
+        if(isPremium)
+        {
+            startGame(GameMode.CHALLENGE)
+        }
+        else
+            purchasePremium(activity)
     }
 
     fun startGame(mode: GameMode)

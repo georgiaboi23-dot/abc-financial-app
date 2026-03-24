@@ -2,6 +2,7 @@ package com.wovenminds.FinPhabet.data.billing
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.PurchasesUpdatedListener
@@ -54,6 +55,8 @@ class BillingManager (
         val params = QueryProductDetailsParams.newBuilder()
             .setProductList(productList)
             .build()
+
+
 
         billingClient.queryProductDetailsAsync(params) { billingResult, queryProductDetailsResult ->
             if (billingResult.responseCode != BillingClient.BillingResponseCode.OK)
