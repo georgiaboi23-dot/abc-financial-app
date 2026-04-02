@@ -9,6 +9,7 @@ import com.wovenminds.FinPhabet.ui.screens.GameScreen
 import com.wovenminds.FinPhabet.ui.screens.HomeScreen
 import com.wovenminds.FinPhabet.ui.screens.PackSelectionScreen
 import com.wovenminds.FinPhabet.data.model.GameMode
+import com.wovenminds.FinPhabet.ui.screens.GameOverScreen
 
 @Composable
 fun AppNavigation(gameViewModel: GameViewModel) {
@@ -31,7 +32,10 @@ fun AppNavigation(gameViewModel: GameViewModel) {
                 onClose =
                     {
                         navController.popBackStack()
-                    }
+                    },
+                onGameOver = {
+                    navController.navigate("gameOver")
+                }
             )
         }
         composable("packs")
@@ -44,6 +48,11 @@ fun AppNavigation(gameViewModel: GameViewModel) {
                     navController.navigate("game/$mode")
                     }
             )
+        }
+        composable ("gameOver")
+        {
+            GameOverScreen(viewModel = gameViewModel,
+                navController = navController)
         }
     }
 }

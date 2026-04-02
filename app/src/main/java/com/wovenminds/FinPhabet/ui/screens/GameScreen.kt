@@ -65,11 +65,19 @@ fun GameHeader(
 @Composable
 fun GameScreen(viewModel: GameViewModel,
                mode:GameMode,
-               onClose: () -> Unit)
+               onClose: () -> Unit,
+               onGameOver: () -> Unit)
 {
     val state by viewModel.uiState.collectAsState()
 
     var timeLeft by remember { mutableStateOf(15) }
+
+    LaunchedEffect(state.isGameOver) {
+        if (state.isGameOver)
+        {
+            onGameOver()
+        }
+    }
 
     if(mode == GameMode.CHALLENGE)
     {
@@ -94,7 +102,7 @@ fun GameScreen(viewModel: GameViewModel,
                 GameHeader(
                     score = state.score,
                     questionIndex = state.questionIndex,
-                    totalQuestions = state.questionIndex + 10,
+                    totalQuestions = state.totalQuestion,
                     gameMode = mode,
                     timeLeft = timeLeft,
                     onClose = onClose

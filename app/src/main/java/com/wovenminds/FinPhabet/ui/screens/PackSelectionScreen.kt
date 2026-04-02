@@ -15,12 +15,12 @@ import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
 import com.wovenminds.FinPhabet.data.model.QuestionPack
 
 
+
 @Composable
 fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Unit)
 {
 
     val state by viewModel.uiState.collectAsState()
-    //val isPremium by viewModel.
     val context = LocalContext.current
     val activity = context as Activity
     var showPurchaseDialog by remember {
@@ -31,7 +31,7 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
         mutableStateOf<QuestionPack?> (null)
     }
 
-     Column(
+        Column(
          modifier = Modifier.fillMaxSize(),
          verticalArrangement = Arrangement.Center,
          horizontalAlignment = Alignment.CenterHorizontally

@@ -198,6 +198,17 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
         val isCorrect = answer == question.correctAnswer
 
+        val nextIndex = _uiState.value.questionIndex + 1
+
+        if (nextIndex > _uiState.value.totalQuestion)
+        {
+            _uiState.value = _uiState.value.copy(isGameOver = true)
+        }
+        else
+        {
+            _uiState.value = _uiState.value.copy(questionIndex = nextIndex)
+        }
+
         if (isCorrect)
             audioManager?.playSound(R.raw.correctanswer)
         else
@@ -226,7 +237,13 @@ class GameViewModel(private val learnRepository: LearnRepository,
 
     fun resetGame()
     {
-        _uiState.value = GameState()
+        _uiState.value = _uiState.value.copy(
+            score = 0,
+            questionIndex = 0,
+            totalQuestion = 10,
+            currentQuestion =null,
+            isGameOver = false
+        )
 
     }
 
