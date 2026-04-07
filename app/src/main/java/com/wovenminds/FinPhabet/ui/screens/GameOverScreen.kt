@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -30,11 +31,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
+import android.app.Activity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -42,10 +45,16 @@ fun GameOverScreen(viewModel: GameViewModel,
                    navController: NavController) {
     val state by viewModel.uiState.collectAsState()
     val currentMode = state.mode
+    val context = LocalContext.current
+    val activity = context as Activity
     var showBalloons by remember { mutableStateOf(true) }
 
     Scaffold(topBar = {
-        TopAppBar(title = { Text("Game Over") })
+        TopAppBar(title = { Text("Game Over") },
+            actions = { IconButton(onClick = {activity.finishAffinity()
+            android.os.Process.killProcess(android.os.Process.myPid())
+            System.exit(0)})
+            {Text ("X", style = MaterialTheme.typography.headlineMedium)}})
     })
     { padding ->
         Box(modifier = Modifier

@@ -3,6 +3,8 @@ package com.wovenminds.FinPhabet.ui.screens
 import android.app.Activity
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
@@ -16,78 +18,92 @@ import com.wovenminds.FinPhabet.data.model.QuestionPack
 
 
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Unit)
-{
+fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Unit) {
 
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val activity = context as Activity
+    val activity1 = context as? Activity
     var showPurchaseDialog by remember {
         mutableStateOf(false)
     }
 
     var selectedPack by remember {
-        mutableStateOf<QuestionPack?> (null)
+        mutableStateOf<QuestionPack?>(null)
     }
 
+    Scaffold(topBar = {
+        TopAppBar(
+            title = { Text("Path Selection") },
+            actions = {
+                IconButton(onClick = { activity1?.finishAffinity()
+                android.os.Process.killProcess(android.os.Process.myPid())
+                System.exit(0)})
+                { Text("X", style = MaterialTheme.typography.titleMedium) }
+            }
+        )
+    }
+    ) { padding ->
         Column(
-         modifier = Modifier.fillMaxSize(),
-         verticalArrangement = Arrangement.Center,
-         horizontalAlignment = Alignment.CenterHorizontally
-     )
-     {
-         Text("Choose Mode")
-         Spacer(modifier = Modifier.height(16.dp))
+            modifier = Modifier.fillMaxSize()
+                .padding(padding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        )
+        {
+            Text("Choose Mode")
+            Spacer(modifier = Modifier.height(16.dp))
 
 
-         Button({
-             viewModel.setMode(GameMode.LEARN)
-             viewModel.startGame(GameMode.LEARN)
-             onStartGame(GameMode.LEARN)
-         }, modifier = Modifier.fillMaxWidth())
-         {
-             Text("LEARN")
+            Button({
+                viewModel.setMode(GameMode.LEARN)
+                viewModel.startGame(GameMode.LEARN)
+                onStartGame(GameMode.LEARN)
+            }, modifier = Modifier.fillMaxWidth())
+            {
+                Text("LEARN")
 
-         }
-         Spacer(modifier = Modifier.height(4.dp))
-         Text(text= getModeDescription(GameMode.LEARN))
-         Spacer(modifier = Modifier.height(8.dp))
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = getModeDescription(GameMode.LEARN))
+            Spacer(modifier = Modifier.height(8.dp))
 
 
-         Button(onClick = {
-             viewModel.setMode(GameMode.PRACTICE)
-             viewModel.startGame(GameMode.PRACTICE)
-             onStartGame(GameMode.PRACTICE)
-         }, modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = {
+                viewModel.setMode(GameMode.PRACTICE)
+                viewModel.startGame(GameMode.PRACTICE)
+                onStartGame(GameMode.PRACTICE)
+            }, modifier = Modifier.fillMaxWidth()) {
 
-                 Text("PRACTICE")
+                Text("PRACTICE")
 
-         }
-         Spacer(modifier = Modifier.height(4.dp))
-         Text(text=getModeDescription(GameMode.PRACTICE))
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = getModeDescription(GameMode.PRACTICE))
 
-         Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-         Button(onClick = {
-             if(!state.isPremium)
-             {
-                 showPurchaseDialog = true
-             }
-             else {
-                 viewModel.setMode(GameMode.CHALLENGE)
-                 viewModel.onChallengeSelected()
-                 viewModel.startGame(GameMode.CHALLENGE)
-                 onStartGame(GameMode.CHALLENGE)
-             }
-         }, modifier = Modifier.fillMaxWidth()) {
-             Text("CHALLENGE")
+            Button(onClick = {
+                if (!state.isPremium) {
+                    showPurchaseDialog = true
+                } else {
+                    viewModel.setMode(GameMode.CHALLENGE)
+                    viewModel.onChallengeSelected()
+                    viewModel.startGame(GameMode.CHALLENGE)
+                    onStartGame(GameMode.CHALLENGE)
+                }
+            }, modifier = Modifier.fillMaxWidth()) {
+                Text("CHALLENGE")
 
-         }
-         Spacer(modifier = Modifier.height(4.dp))
-         Text(text=getModeDescription(GameMode.CHALLENGE))
-         Spacer(modifier = Modifier.height(8.dp))
-     }
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(text = getModeDescription(GameMode.CHALLENGE))
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
 
     if(showPurchaseDialog)
     {

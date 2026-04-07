@@ -50,7 +50,9 @@ fun HomeScreen( viewModel: GameViewModel, navController: NavController)
             TopAppBar(
                 title = {Text("Home")},
                 actions = { IconButton(
-                    onClick = {activity?.finish()}
+                    onClick = {activity?.finishAffinity()
+                    android.os.Process.killProcess(android.os.Process.myPid())
+                    System.exit(0)}
                 ) {Text("X", style= MaterialTheme.typography.titleMedium) }
                 }
             )
