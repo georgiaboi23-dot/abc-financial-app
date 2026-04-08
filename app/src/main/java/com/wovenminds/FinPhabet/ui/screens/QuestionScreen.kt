@@ -1,5 +1,7 @@
 package com.wovenminds.FinPhabet.ui.screens
 
+import android.R
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,9 @@ import androidx.compose.ui.unit.dp
 import com.wovenminds.FinPhabet.data.model.GameMode
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import com.wovenminds.FinPhabet.ui.theme.gameButtonPeach
+import com.wovenminds.FinPhabet.ui.theme.gameTextBlack
 import kotlinx.coroutines.delay
 
 @Composable
@@ -56,6 +61,8 @@ fun QuestionScreen(viewModel: GameViewModel) {
                 onClick = {
                     viewModel.submitAnswer(option)
                 },
+                colors = ButtonDefaults.buttonColors(gameButtonPeach, gameTextBlack),
+                border = BorderStroke(1.dp,Color.White),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(option)

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.runtime.*
 import androidx.compose.ui.unit.dp
 import com.wovenminds.FinPhabet.data.model.GameMode
+import com.wovenminds.FinPhabet.ui.theme.CountopiaBlue
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
 import kotlinx.coroutines.delay
 
@@ -97,6 +98,7 @@ fun GameScreen(viewModel: GameViewModel,
 
 
     Scaffold(
+        containerColor = CountopiaBlue,
         topBar =
             {
                 GameHeader(

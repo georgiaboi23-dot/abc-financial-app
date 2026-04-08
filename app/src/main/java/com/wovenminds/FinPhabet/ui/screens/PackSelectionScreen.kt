@@ -1,6 +1,7 @@
 package com.wovenminds.FinPhabet.ui.screens
 
 import android.app.Activity
+import android.graphics.Color
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.MaterialTheme
@@ -15,8 +16,13 @@ import androidx.compose.ui.unit.dp
 import com.wovenminds.FinPhabet.data.model.GameMode
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
 import com.wovenminds.FinPhabet.data.model.QuestionPack
-
-
+import com.wovenminds.FinPhabet.ui.theme.CountopiaBlue
+import com.wovenminds.FinPhabet.ui.theme.conColorval
+import com.wovenminds.FinPhabet.ui.theme.gameButtonBeige
+import com.wovenminds.FinPhabet.ui.theme.gameButtonPeach
+import com.wovenminds.FinPhabet.ui.theme.gameButtonRust
+import com.wovenminds.FinPhabet.ui.theme.gameTextBlack
+import com.wovenminds.FinPhabet.ui.theme.gameTextWhite
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,9 +41,12 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
         mutableStateOf<QuestionPack?>(null)
     }
 
-    Scaffold(topBar = {
+    Scaffold(
+        containerColor = CountopiaBlue,
+        topBar = {
         TopAppBar(
             title = { Text("Path Selection") },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = CountopiaBlue, titleContentColor = conColorval, actionIconContentColor = conColorval),
             actions = {
                 IconButton(onClick = { activity1?.finishAffinity()
                 android.os.Process.killProcess(android.os.Process.myPid())
@@ -62,7 +71,8 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
                 viewModel.setMode(GameMode.LEARN)
                 viewModel.startGame(GameMode.LEARN)
                 onStartGame(GameMode.LEARN)
-            }, modifier = Modifier.fillMaxWidth())
+            }, colors = ButtonDefaults.buttonColors( gameButtonBeige, contentColor = gameTextBlack),
+                modifier = Modifier.fillMaxWidth())
             {
                 Text("LEARN")
 
@@ -76,7 +86,8 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
                 viewModel.setMode(GameMode.PRACTICE)
                 viewModel.startGame(GameMode.PRACTICE)
                 onStartGame(GameMode.PRACTICE)
-            }, modifier = Modifier.fillMaxWidth()) {
+            }, colors= ButtonDefaults.buttonColors(containerColor = gameButtonRust, contentColor = gameTextWhite),
+                modifier = Modifier.fillMaxWidth()) {
 
                 Text("PRACTICE")
 
@@ -95,7 +106,8 @@ fun PackSelectionScreen( viewModel: GameViewModel, onStartGame: (GameMode)-> Uni
                     viewModel.startGame(GameMode.CHALLENGE)
                     onStartGame(GameMode.CHALLENGE)
                 }
-            }, modifier = Modifier.fillMaxWidth()) {
+            }, colors = ButtonDefaults.buttonColors(containerColor = gameButtonPeach, contentColor = gameTextBlack),
+                modifier = Modifier.fillMaxWidth()) {
                 Text("CHALLENGE")
 
             }

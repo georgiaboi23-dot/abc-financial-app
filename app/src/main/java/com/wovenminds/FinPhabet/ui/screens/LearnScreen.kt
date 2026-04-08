@@ -16,6 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.wovenminds.FinPhabet.ui.theme.gameButtonPeach
+import com.wovenminds.FinPhabet.ui.theme.gameButtonRust
+import com.wovenminds.FinPhabet.ui.theme.gameTextBlack
+import com.wovenminds.FinPhabet.ui.theme.gameTextWhite
 import com.wovenminds.FinPhabet.ui.viewModel.GameViewModel
 
 @Composable
@@ -54,7 +58,8 @@ fun LearnScreen(viewModel: GameViewModel)
         Row {
             Button(onClick = {
                 viewModel.previousLearnItem()
-            }, enabled = state.currentLearnIndex > 0) {
+            }, colors = ButtonDefaults.buttonColors(gameButtonRust, gameTextWhite),
+                enabled = state.currentLearnIndex > 0) {
                 Text("Previous")
             }
 
@@ -62,7 +67,8 @@ fun LearnScreen(viewModel: GameViewModel)
 
             Button(onClick = {
                 viewModel.nextLearnItem()
-            }, enabled = state.currentLearnIndex < viewModel.learnCount - 1)
+            }, colors = ButtonDefaults.buttonColors(gameButtonPeach,gameTextBlack),
+                enabled = state.currentLearnIndex < viewModel.learnCount - 1)
             {
                 Text("Next")
             }

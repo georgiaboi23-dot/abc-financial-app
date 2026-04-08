@@ -1,6 +1,7 @@
 package com.wovenminds.FinPhabet.ui.screens
 
 
+import android.R
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
@@ -38,6 +39,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 import android.app.Activity
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.TopAppBarDefaults
+import com.wovenminds.FinPhabet.ui.theme.CountopiaBlue
+import com.wovenminds.FinPhabet.ui.theme.conColorval
+import com.wovenminds.FinPhabet.ui.theme.gameButtonBeige
+import com.wovenminds.FinPhabet.ui.theme.gameButtonRust
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,8 +56,11 @@ fun GameOverScreen(viewModel: GameViewModel,
     val activity = context as Activity
     var showBalloons by remember { mutableStateOf(true) }
 
-    Scaffold(topBar = {
+    Scaffold(
+        containerColor = CountopiaBlue,
+        topBar = {
         TopAppBar(title = { Text("Game Over") },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = CountopiaBlue, titleContentColor = conColorval, actionIconContentColor = conColorval),
             actions = { IconButton(onClick = {activity.finishAffinity()
             android.os.Process.killProcess(android.os.Process.myPid())
             System.exit(0)})
@@ -97,12 +107,13 @@ fun GameOverScreen(viewModel: GameViewModel,
                         }
                     }
                 },
+                colors = ButtonDefaults.buttonColors(containerColor = gameButtonBeige, contentColor = Color.Black),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Play Again")
             }
             Spacer(modifier = Modifier.height(12.dp))
-            OutlinedButton(
+            Button(
                 onClick = {
                     viewModel.resetGame()
                     navController.navigate("packs")
@@ -113,10 +124,11 @@ fun GameOverScreen(viewModel: GameViewModel,
                         }
                     }
                 },
+                colors = ButtonDefaults.buttonColors(containerColor = gameButtonRust, contentColor = Color.White),
                 modifier = Modifier.fillMaxWidth()
             )
             {
-                Text("Back to packs")
+                Text("Back to selection")
             }
         }
     }
