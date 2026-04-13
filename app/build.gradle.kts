@@ -13,8 +13,8 @@ android {
         applicationId = "com.wovenminds.FinPhabet"
         minSdk = 26
         targetSdk = 36
-        versionCode = 6
-        versionName = "0.2.1-beta"
+        versionCode = 10
+        versionName = "0.2.4-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,7 +55,6 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material:1.10.6")
     implementation("com.android.billingclient:billing-ktx:8.3.0")
-    implementation(libs.ads.mobile.sdk)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

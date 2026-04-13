@@ -1,6 +1,6 @@
 package com.wovenminds.FinPhabet.ui.screens
 
-import ads_mobile_sdk.h6
+
 import android.app.Activity
 import android.graphics.Color
 import androidx.compose.foundation.BorderStroke
