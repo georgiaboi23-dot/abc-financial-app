@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.wovenminds.FinPhabet.ui.theme.gameButtonPeach
 import com.wovenminds.FinPhabet.ui.theme.gameButtonRust
 import com.wovenminds.FinPhabet.ui.theme.gameTextBlack
@@ -50,7 +51,7 @@ fun LearnScreen(viewModel: GameViewModel)
           )
 
           Spacer(modifier = Modifier.height(8.dp))
-          Text(text = item.definition, style = MaterialTheme.typography.bodyMedium)
+          Text(text = item.definition, textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyMedium)
           Spacer(modifier = Modifier.height(16.dp))
       }
 

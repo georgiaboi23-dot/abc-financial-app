@@ -239,7 +239,7 @@ class GameViewModel(private val learnRepository: LearnRepository,
     {
         _uiState.value = _uiState.value.copy(
             score = 0,
-            questionIndex = 0,
+            questionIndex = 1,
             totalQuestion = 10,
             currentQuestion =null,
             isGameOver = false

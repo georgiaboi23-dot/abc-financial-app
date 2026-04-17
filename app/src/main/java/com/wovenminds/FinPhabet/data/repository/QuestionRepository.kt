@@ -159,7 +159,7 @@ class QuestionRepository {
                 id = "Q_Z",
                 letter = "Z",
                 word = "Zero-Coupon Bond",
-                definition = "A bond that does not pay periodic interest but is sold at a discoount to its face value"
+                definition = "A bond that does not pay periodic interest but is sold at a discount to its face value"
             )
         )
     }

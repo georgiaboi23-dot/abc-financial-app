@@ -13,8 +13,8 @@ android {
         applicationId = "com.wovenminds.FinPhabet"
         minSdk = 26
         targetSdk = 36
-        versionCode = 10
-        versionName = "0.2.4-beta"
+        versionCode = 11
+        versionName = "0.2.5-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

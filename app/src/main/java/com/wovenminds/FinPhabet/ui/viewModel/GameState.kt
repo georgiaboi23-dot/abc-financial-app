@@ -6,7 +6,7 @@ import com.wovenminds.FinPhabet.data.model.Question
 import com.wovenminds.FinPhabet.data.model.QuestionPack
 
 data class GameState(val score: Int=0,
-                     val questionIndex: Int=0,
+                     val questionIndex: Int=1,
                      val totalQuestion: Int=10,
                      val currentLearnIndex: Int=0,
                      val currentQuestion: Question?=null,
